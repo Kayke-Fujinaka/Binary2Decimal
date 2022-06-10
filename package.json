@@ -1,0 +1,23 @@
+{
+  "name": "binary2decimal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kayke-Fujinaka/Binary2Decimal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kayke-Fujinaka/Binary2Decimal/issues"
+  },
+  "homepage": "https://github.com/Kayke-Fujinaka/Binary2Decimal#readme",
+  "dependencies": {
+    "node-modules": "^1.0.1"
+  }
+}
