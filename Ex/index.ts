@@ -1,7 +1,16 @@
+export class NonBinaryStringError extends Error {
+  constructor() {
+    super("Have to be system binary, that is, zero and one!");
+    this.name = 'NonBinaryStringError'
+  }
+}
+
 // Função para converter o binário para
 // Vai receber um argumento chamado binary
 // Exportando a função para ser usada no Jest (Testes unitários)
 export function converterBinaryToDecimal(binary: string | number): number {
+  if (binary !== 0 && !binary) throw new NonBinaryStringError();
+
   // Regular Expressions (RegExp) que vai validar o padrão de caracteres do argumento da minha função
   // Ele vai verificar se a string possui caracteres que não são 0 ou 1
   const binarySystemCheck = new RegExp(/^[01]+$/g);
@@ -9,19 +18,19 @@ export function converterBinaryToDecimal(binary: string | number): number {
   // Alterando a tipagem do argumento de number para string
   const binaryString = binary.toString();
 
-  // Além de precisar inverter as string, então utilizei métodos em conjunto
-  // Sendo os dois métodos:
-  // O split() vai dividir os elementos dentro de um Array, sendo a divisão a cada caracter
-  // O reverse() vai inverter a ordem de um Array, por isso utilizei o split para criar um Array
-  const reversedBinaryArray = binaryString.split("").reverse();
-
   // O método test() executa uma busca por uma correspondência entre uma expressão regular e uma string.
   // Verificação para identificar se a string passada corresponde como binário
   // Deve corresponder com valores entre 0 e 1
   if (!binarySystemCheck.test(binaryString))
     // Vai lançar um erro com uma descrição falando que precisa ser do sistema binário
     // Além de parar a execução da função
-    throw new Error("Have to be system binary, that is, zero and one!");
+    throw new NonBinaryStringError();
+
+  // Além de precisar inverter as string, então utilizei métodos em conjunto
+  // Sendo os dois métodos:
+  // O split() vai dividir os elementos dentro de um Array, sendo a divisão a cada caracter
+  // O reverse() vai inverter a ordem de um Array, por isso utilizei o split para criar um Array
+  const reversedBinaryArray = binaryString.split("").reverse();
 
   // Uma variável para armazenar o método reduce()
   /* O método executa uma função para cada elemento do array, resultando num único valor de retorno.
@@ -35,12 +44,10 @@ export function converterBinaryToDecimal(binary: string | number): number {
         - O Math.pow(base, expoente) tem o expoente que vai ser utilizado para elevar a base. No caso é o 2 elevado pela posição(i) do caracter
     Vai acumulando conforme passa por todos caracteres. Até finalmente retornar um valor final
    */
-  let storage = reversedBinaryArray.reduce((acc, cur, idx) => {
-    return (acc += +cur * Math.pow(2, idx));
-  }, 0);
-
-  // Retorna o valor da váriavel decimal depois de ter feito todas as soma
-  return storage;
+  return reversedBinaryArray.map(Number).reduce(
+    (acc, cur, idx) => (acc += cur * Math.pow(2, idx)),
+    0
+  );
 }
 
 // Chamando a função
